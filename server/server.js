@@ -23,6 +23,10 @@ app.use("/", Router);
 //app.use("/api", require("./routes/adduser"));
 const markingSchemaRoutes = require('./routes/markingSchema.r');
 app.use(markingSchemaRoutes);
+
+const manageUsersRoutes = require('./routes/manageUsers');
+app.use(manageUsersRoutes);
+
 app.listen("5000", () =>{
     console.log("Server listening at port 5000")
 })

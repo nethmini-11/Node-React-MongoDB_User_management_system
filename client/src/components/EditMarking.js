@@ -60,11 +60,11 @@ export default class EditMarking extends Component {
         axios.get(`http://localhost:5000/MarkingSchema/${id}`).then((res) => {
             if(res.data.success){
                 this.setState({
-                    markingSchemaName:res.data.MarkingSchema.markingSchemaName,
-                    markingSchemaNumber:res.data.MarkingSchema.markingSchemaNumber,
+                    markingSchemaName:res.data.manageUserarkingSchemaName,
+                    markingSchemaNumber:res.data.manageUserarkingSchemaNumber,
                     addedDate:res.data.MarkingSchema.addedDate,
                     evaluateArea:res.data.MarkingSchema.evaluateArea,
-                    marks:res.data.MarkingSchema.marks
+                    marks:res.data.manageUserarks
                 });
                 console.log(this.state.MarkingSchema);
             }

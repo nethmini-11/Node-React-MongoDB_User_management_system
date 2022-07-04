@@ -1,5 +1,5 @@
 //import express from "express";
-const MarkingSchema = require("../models/markingSchema.m");
+const MarkingSchema = require("../models/manageUser");
 const router = require("express").Router();
 
 //ADD NEW MarkingSchema

@@ -14,7 +14,7 @@ function signToken(userID) {
 
 
 Router.post("/register", (req, res) => {
-    const {email, password, role} = req.body;
+    const {uid,firstName,lastName,email,dateOfBirth,mobile,status, password,password1, role} = req.body;
 
     User.findOne({email}, function(err, user) {
         if(err)
@@ -23,8 +23,15 @@ Router.post("/register", (req, res) => {
             return res.status(400).json({msg: "User already exist", error: true})
         else {
             const newUser = new User({
+                uid,
+                firstName,
+                lastName,
                 email,
+                dateOfBirth,
+                mobile,
+                status,
                 password,
+                password1,
                 role
             })
 
