@@ -38,7 +38,7 @@ export default class EditMarking extends Component {
         }
         console.log(data);
 
-        axios.put('http://localhost:5000/MarkingSchema/update/:id'+id ,data).then((res) => {
+        axios.put(`http://localhost:5000/MarkingSchema/update/${id}` ,data).then((res) => {
             if(res.data.success){
                 alert("MarkingSchema Updated Successfully!")
                 this.setState(
@@ -57,7 +57,7 @@ export default class EditMarking extends Component {
     componentDidMount(){
         const id = this.props.match.params.id;
 
-        axios.get('http://localhost:5000/MarkingSchema'+id).then((res) => {
+        axios.get(`http://localhost:5000/MarkingSchema/${id}`).then((res) => {
             if(res.data.success){
                 this.setState({
                     markingSchemaName:res.data.MarkingSchema.markingSchemaName,
@@ -126,6 +126,9 @@ export default class EditMarking extends Component {
                     </div>
             </form>
             <br/><br/><br/><br/>
+            <a href="/allmarking" className="btn btn-danger my-2">
+          Reload Contact
+        </a>
             </Container>
             
         )

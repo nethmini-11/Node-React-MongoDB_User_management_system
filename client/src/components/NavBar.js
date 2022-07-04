@@ -17,7 +17,7 @@ function NavBar() {
                     <NavLink to="/protect2" exact className="nav-item nav-link"> Protected_2 </NavLink>
                     <NavLink to="/admin" exact className="nav-item nav-link"> Admin </NavLink>
                     <NavLink to="/addgroup" exact className="nav-item nav-link"> add user </NavLink>
-                    <NavLink to="/addgroup" exact className="nav-item nav-link"> add user </NavLink>
+                    
                     {
                         isAuth ?
                         <Logout /> :

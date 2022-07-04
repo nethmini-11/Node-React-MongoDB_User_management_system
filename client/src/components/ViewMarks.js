@@ -97,14 +97,7 @@ export default class PanelAlocation extends Component {
                             <td>{markings.evaluateArea}</td>
                             <td>{markings.marks}</td>
                             <td>
-                                <a className="btn btn-warning" href={'/edit'+markings._id}>
-                                    <i className="fas fa-edit"></i>&nbsp;Edit
-                                </a>
-
-                                &nbsp;
-                                <a href={"/edit"+markings._id} className="btn btn-danger my-2">
-          edit
-        </a>
+                            
 
         <Link className="btn btn-info" to={`/edit/${markings._id}`}>
             Edittt
@@ -122,7 +115,7 @@ export default class PanelAlocation extends Component {
 
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="submit" className="btn btn-outline-primary">
-                    <Link to="/marking/add">Add New Marking Schema</Link>
+                    <Link to="/addgroup">Add New Marking Schema</Link>
                 </button>
             </div>
 
