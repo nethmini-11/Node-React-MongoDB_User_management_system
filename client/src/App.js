@@ -9,8 +9,8 @@ import Admin from "./components/Admin";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AddGroup from "./components/AddUser";
-
-
+import PanelAlocation from "./components/ViewMarks";
+import EditMarking from "./components/EditMarking";
 function App() {
   return (
     <div className="container">
@@ -22,9 +22,11 @@ function App() {
           <PrivateRoute path="/protect2" role={["user", "admin"]} component={Protect2}/>
           <PrivateRoute path="/admin" role={["admin"]} component={Admin}/>
           <PrivateRoute path="/addgroup" role={["admin"]} component={AddGroup}/>
+          <PrivateRoute path="/allmarking" role={["admin"]} component={PanelAlocation}/>
           <UnPrivateRoute path="/login" component={Login} />
           <UnPrivateRoute path="/register" component={Register} />
-          
+          <PrivateRoute path="/edit/:id" role={["admin"]} component={EditMarking}/>
+         
       </Router>
     </div>
   );

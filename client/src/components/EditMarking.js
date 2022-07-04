@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Container  from "react-bootstrap/Container";
 import axios from 'axios';
 
-export default class Adduser extends Component {
+export default class EditMarking extends Component {
 
     constructor(props){
         super(props);
@@ -26,6 +26,7 @@ export default class Adduser extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        const id = this.props.match.params.id;
 
         const {markingSchemaName,markingSchemaNumber,addedDate,evaluateArea,marks} = this.state;
         const data = {
@@ -37,9 +38,9 @@ export default class Adduser extends Component {
         }
         console.log(data);
 
-        axios.post("http://localhost:5000/MarkingSchema/add",data).then((res) => {
+        axios.put('http://localhost:5000/MarkingSchema/update/:id'+id ,data).then((res) => {
             if(res.data.success){
-                alert("MarkingSchema Added Successfully!")
+                alert("MarkingSchema Updated Successfully!")
                 this.setState(
                     {
                         markingSchemaName:"",
@@ -53,10 +54,27 @@ export default class Adduser extends Component {
         })
     }
 
+    componentDidMount(){
+        const id = this.props.match.params.id;
+
+        axios.get('http://localhost:5000/MarkingSchema'+id).then((res) => {
+            if(res.data.success){
+                this.setState({
+                    markingSchemaName:res.data.MarkingSchema.markingSchemaName,
+                    markingSchemaNumber:res.data.MarkingSchema.markingSchemaNumber,
+                    addedDate:res.data.MarkingSchema.addedDate,
+                    evaluateArea:res.data.MarkingSchema.evaluateArea,
+                    marks:res.data.MarkingSchema.marks
+                });
+                console.log(this.state.MarkingSchema);
+            }
+        });
+    }
+
     render() {
         return (
             <Container>
-                <br></br><br></br><h4>Add New Marking Schema</h4><br></br><hr></hr><br></br>
+                <br></br><br></br><h4>Edit Marking Schema</h4><br></br><hr></hr><br></br>
             <form className="row g-3">
 
                     <div className="col-md-6">
@@ -104,12 +122,9 @@ export default class Adduser extends Component {
                     <br></br><br></br>
 
                     <div className="col-12">
-                        <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Add Marking Schema</button>
+                        <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Update Marking Schema</button>
                     </div>
             </form>
-            <a href="/allmarking" className="btn btn-danger my-2">
-          Reload Contact
-        </a>
             <br/><br/><br/><br/>
             </Container>
             
