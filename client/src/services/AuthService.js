@@ -1,7 +1,7 @@
 //A bunch of API call to the server (all are async functions)
 const AuthService = {
-    login: function(userInfo) {
-        return fetch("http://localhost:5000/login", 
+    login: async function(userInfo) {
+        const res = await fetch("http://localhost:5000/login",
             {
                 method: 'POST',
                 body: JSON.stringify(userInfo),
@@ -9,17 +9,17 @@ const AuthService = {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include'
-            }).then(res => {
-                if(res.status !== 401)
-                    return res.json().then(jsonData => jsonData)
-                else
-                    return {isAuthenticated: false, user:{email:"", role:""}}
             })
+        if (res.status !== 401)
+            return res.json().then(jsonData => jsonData)
+
+        else
+            return { isAuthenticated: false, user: { email: "", role: "" } }
         
     },
 
-    register: function (userInfo) {
-        return fetch("http://localhost:5000/register", 
+    register: async function (userInfo) {
+        const res = await fetch("http://localhost:5000/register",
             {
                 method: 'POST',
                 body: JSON.stringify(userInfo),
@@ -28,24 +28,23 @@ const AuthService = {
                 },
                 credentials: 'include'
             })
-            .then(res => res.json())
-            .then(jsonData => jsonData)
+        const jsonData = await res.json()
+        return jsonData
     },
 
-    logout: function() {
-        return fetch("http://localhost:5000/logout", {credentials: 'include'})
-                .then(res => res.json())
-                .then(jsonData => jsonData)
+    logout: async function() {
+        const res = await fetch("http://localhost:5000/logout", { credentials: 'include' })
+        const jsonData = await res.json()
+        return jsonData
     },
 
-    isAuthenticated: function() {
-        return fetch("http://localhost:5000/authenticated", {credentials: 'include'})
-                .then(res => {
-                    if(res.status !== 401)
-                        return res.json().then(jsonData => jsonData)
-                    else
-                        return {isAuthenticated: false, user: {email:"", role:""}}
-                })
+    isAuthenticated: async function() {
+        const res = await fetch("http://localhost:5000/authenticated", { credentials: 'include' })
+        if (res.status !== 401)
+            return res.json().then(jsonData => jsonData)
+
+        else
+            return { isAuthenticated: false, user: { email: "", role: "" } }
     }
 }
 

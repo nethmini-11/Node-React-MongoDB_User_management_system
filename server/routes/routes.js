@@ -2,7 +2,7 @@ const Router = require('express').Router();
 const User = require('../models/user_model');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-require('../passport_config');
+require('../config');
 
 //To sign JWT token before sending in cookie to Client
 function signToken(userID) {
