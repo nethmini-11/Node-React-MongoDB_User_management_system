@@ -11,6 +11,8 @@ import Register from "./components/Register";
 import AddGroup from "./components/AddUser";
 import PanelAlocation from "./components/ViewMarks";
 import EditMarking from "./components/EditMarking";
+import ViewUsers from "./components/ViewUsers";
+import EditUsers from "./components/EditUsers";
 function App() {
   return (
     <div className="container">
@@ -26,6 +28,8 @@ function App() {
           <UnPrivateRoute path="/login" component={Login} />
           <UnPrivateRoute path="/register" component={Register} />
           <PrivateRoute path="/edit/:id" role={["admin"]} component={EditMarking}/>
+          <PrivateRoute path="/allusers" role={["admin"]} component={ViewUsers}/>
+          <PrivateRoute path="/editusers/:id" role={["admin"]} component={EditUsers}/>
          
       </Router>
     </div>

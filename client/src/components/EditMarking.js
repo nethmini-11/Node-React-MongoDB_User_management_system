@@ -15,7 +15,7 @@ export default class EditMarking extends Component {
         }
     }
 
-    handleInputChange = (e) => {
+    handleInput = (e) => {
         const {name,value} = e.target;
 
         this.setState({
@@ -81,7 +81,7 @@ export default class EditMarking extends Component {
                         <label className="form-label">Marking Schema Name</label>
                         <select name="markingSchemaName" className="form-select" 
                             value={this.state.markingSchemaName}
-                            onChange={this.handleInputChange}>
+                            onChange={this.handleInput}>
                             <option>Choose...</option>
                             <option>Presentations</option>
                             <option>Topic Evaluation</option>
@@ -93,28 +93,28 @@ export default class EditMarking extends Component {
                         <label className="form-label">Marking Schema Number</label>
                         <input type="text" className="form-control" name="markingSchemaNumber" placeholder="MS-000"
                             value={this.state.markingSchemaNumber}
-                            onChange={this.handleInputChange} />
+                            onChange={this.handleInput} />
                     </div>
 
                     <div className="col-md-6">
                         <label className="form-label">Date</label>
                         <input type="text" className="form-control" name="addedDate" placeholder="YYYY-MM-DD"
                             value={this.state.addedDate}
-                            onChange={this.handleInputChange} />
+                            onChange={this.handleInput} />
                     </div>
 
                     <div className="col-md-6">
                         <label className="form-label">Evaluate Area</label>
                         <input type="text" className="form-control" name="evaluateArea" placeholder="Demo / Viva"
                             value={this.state.evaluateArea}
-                            onChange={this.handleInputChange} />
+                            onChange={this.handleInput} />
                     </div>
 
                     <div className="col-md-6">
                         <label className="form-label">Marks</label>
                         <input type="text" className="form-control" name="marks" placeholder="Eg: 10/10" disabled
                             value={this.state.marks}
-                            onChange={this.handleInputChange} />
+                            onChange={this.handleInput} />
                     </div>
 
                     <br/><br/>
