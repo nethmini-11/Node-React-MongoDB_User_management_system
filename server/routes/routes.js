@@ -1,16 +1,12 @@
 const Router = require('express').Router();
-const User = require('../models/user_model');
-const UserVerification = require('../models/UserVerification');
+const { User, validate }= require('../models/user_model');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const nodemailer =require("nodemailer");
-const{v4:uuidv4}=require ("uuid");
-const router = require('./manageUsers');
-require("dotenv").config();
 require('../config');
-
-//path verified page
-const path =require("path");
+const Token = require("../models/token");
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
+const bcrypt = require("bcrypt");
 
 //To sign JWT token before sending in cookie to Client
 function signToken(userID) {
@@ -20,146 +16,60 @@ function signToken(userID) {
     }, 'secret', {expiresIn:'1h'})
 }
 
-//REGISTER
-Router.post("/register", (req, res) => {
-    const {uid,firstName,lastName,email,dateOfBirth,mobile,status, password,password1, role} = req.body;
 
-    User.findOne({email}, function(err, user) {
-        if(err)
-            return res.status(500).json({msg: err.message, error: true})
-        if(user)
-            return res.status(400).json({msg: "User already exist", error: true})
-        else {
-            const newUser = new User({
-                uid,
-                firstName,
-                lastName,
-                email,
-                dateOfBirth,
-                mobile,
-                status,
-                password,
-                password1,
-                role,
-                verified:false,
-            })
+Router.post("/", async (req, res) => {
+	try {
+		const { error } = validate(req.body);
+		if (error)
+			return res.status(400).send({ message: error.details[0].message });
 
-            newUser.save((err, user) =>{
-                if(err)
-                    return res.status(500).json({msg: err.message, error: true})
-                else{
-                    const token = signToken(user.id);
-                    //httpOnly prevents XSS (read in my authentication doc for more info)
-                    res.cookie("access_token", token, {maxAge:3600*1000, httpOnly: true, sameSite: true});
+		let user = await User.findOne({ email: req.body.email });
+		if (user)
+			return res
+				.status(409)
+				.send({ message: "User with given email already Exist!" });
 
-                    return res.status(200).json({ isAuthenticated: true, user: {email, role}, error: false })
-                }
-            })
-            //handle verification
-            newUser.then((result)=>{
-                sendVerificationEmail(result,res);
-            })
-        }
-    })
-})
+		const salt = await bcrypt.genSalt(Number(process.env.SALT));
+		const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-// SEND VERIFICATION MAIL
-const sendVerificationEmail=({_id,email},res)=>{
-    const currentUrl="http://localhost:5000/";
-    const uniqueString=uuidv4()+_id;
-    const mailOption ={
-        from:process.env.AUTH_EMAIL,
-        to:email,
-        subject:"Account Verification",
-        html:`<p>Verify your Account Here</p><p>This will be expire within 6 hours</p> <p><a href=${currentUrl+"user/verify/"+_id+"/"+uniqueString}>Here</a>To Proceed</p>`
-    };
-    //hash the uniqueString
-    const saltRounds=10;
-    bcrypt
-    .hash(uniqueString,saltRounds)
-    .then((hashedUniqueString)=>{
-        const newVerification =new UserVerification({
-            userID:_id,
-            uniqueString:hashedUniqueString,
-            createAt:Date.now(),
-            expireAt:Date.now()+21600000,
-        });
-        newVerification
-        .save()
-        .then(() =>{
-            transporter
-            .sendMail(mailOption)
-            .then(()=>{
-                //send email and verification status will be saved
-                res.json({
-                    status:"PENDING",
-                    message:"Verification Email Send",
-                })
-            })
-            .catch((error)=>{
-                console.log(error);
-                res.json({
-                        status:"FAILED",
-                        message:"Verification Email Failed",
-                });
-            })
-        })
-        .catch((error)=>{
-            console.log(error);
-            res.json({
-                status:"FAILED",
-                message:"Could Not Able to Save the verification data!!",
-            });
-        })
-    })
-    .catch(()=>{
-        res.json({
-            status:"FAILED",
-            message:"An error when hashing the email details!!",
-        });
-    })
-};
+		user = await new User({ ...req.body, password: hashPassword }).save();
 
-//verify email
-router.get("/verify/:userID/uniqueString",(req,res)=>{
-    let{userID,uniqueString}=req.params;
-     UserVerification
-     .find({userID})
-     .then((result)=>{
-        if(result.length >0){
-         //user verification record exists so we proceed
-         const {expireAt}=result[0];
-         //checking for expire unique string
-            if(expireAt < Date.now()){
-                //record expired delete it
-                UserVerification
-                .deleteOne({userID})
-                .then()
-                .catch((error)=>{
-                    console.log(error);
-                    let message ="Error while clearing expired user";
-                    res.redirect(`/user/verified/error=true&message=${message}`);
-                })
-            }
-        }else {
-            //user verification record doesn't exixt
-            let message ="An record doesn't exixt or already verified";
-            res.redirect(`/user/verified/error=true&message=${message}`);
-        }
-     })
-     .catch((error)=>{
-        console.log(error);
-        let message ="An error occured while checking for existing user verification record";
-        res.redirect(`/user/verified/error=true&message=${message}`);
-     })
+		const token = await new Token({
+			userId: user._id,
+			token: crypto.randomBytes(32).toString("hex"),
+		}).save();
+		const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
+		await sendEmail(user.email, "Verify Email", url);
+
+		res
+			.status(201)
+			.send({ message: "An Email sent to your account please verify" });
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({ message: "Internal Server Error" });
+	}
 });
 
-//verified page route
-router.get(("/verified"),(req,res)=>{
- res.sendFile(path.join(__dirname,"./../views/verified.html"))
-})
+Router.get("/:id/verify/:token/", async (req, res) => {
+	try {
+		const user = await User.findOne({ _id: req.params.id });
+		if (!user) return res.status(400).send({ message: "Invalid link" });
 
-//LOGIN
+		const token = await Token.findOne({
+			userId: user._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({ message: "Invalid link" });
+
+		await User.updateOne({ _id: user._id, verified: true });
+		await token.remove();
+
+		res.status(200).send({ message: "Email verified successfully" });
+	} catch (error) {
+		res.status(500).send({ message: "Internal Server Error" });
+	}
+});
+
 Router.post("/login", passport.authenticate('local', {session: false}), (req, res) => {
     const {id, email, role} = req.user;
     const token = signToken(id);
@@ -198,22 +108,6 @@ Router.get("/logout", passport.authenticate('jwt', {session: false}), (req, res)
     return res.status(200).json({ success: true, user: {email:"", role: ""} })
 })
 
-//NODEMAILER TRANSPOTER
-let transporter=nodemailer.createTransport({
-    service:"gmail",
-    auth:{
-        user:process.env.AUTH_EMAIL,
-        pass:process.env.AUTH_PASSWORD,
-    },
-});
-//testing success
 
-transporter.verify((error,success) =>{
-    if(error){
-        console.log(error);
-    }else{
-        console.log("Ready for message");
-        console.log(success);
-    }
-});
+
 module.exports = Router;

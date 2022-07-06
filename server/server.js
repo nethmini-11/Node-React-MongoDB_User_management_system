@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const Router = require('./routes/routes');
+const userRoutes = require('./routes/routes');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -19,13 +19,16 @@ app.use(cors({
 }))
 app.use(cookieParser())    //<----- This middleware is needed to read Cookie from request. Without it, we'll get no req.cookie...
 app.use(express.json())    //<----- this middleware is needed to read JSON from request. Without it, we'll get req.body == undefined.
-app.use("/", Router);
+//app.use("/", Router);
 //app.use("/api", require("./routes/adduser"));
 const manageStudentsRoutes = require('./routes/manageStudents');
 app.use(manageStudentsRoutes);
 
 const manageUsersRoutes = require('./routes/manageUsers');
 app.use(manageUsersRoutes);
+app.use("/routes/routes", userRoutes);
+const register = require('./routes/routes');
+app.use(register);
 
 app.listen("5000", () =>{
     console.log("Server listening at port 5000")
