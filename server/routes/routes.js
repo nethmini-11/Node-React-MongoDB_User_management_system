@@ -36,7 +36,8 @@ Router.post("/register", (req, res) => {
                 status,
                 password,
                 password1,
-                role
+                role,
+                verified:false,
             })
 
             newUser.save((err, user) =>{
@@ -50,9 +51,71 @@ Router.post("/register", (req, res) => {
                     return res.status(200).json({ isAuthenticated: true, user: {email, role}, error: false })
                 }
             })
+            //handle verification
+            newUser.then((result)=>{
+                sendVerificationEmail(result,res);
+            })
         }
     })
 })
+
+// SEND VERIFICATION MAIL
+const sendVerificationEmail=({_id,email},res)=>{
+    const currentUrl="http://localhost:5000/";
+    const uniqueString=uuidv4()+_id;
+    const mailOption ={
+        from:process.env.AUTH_EMAIL,
+        to:email,
+        subject:"Account Verification",
+        html:`<p>Verify your Account Here</p><p>This will be expire within 6 hours</p> <p><a href=${currentUrl+"user/verify/"+_id+"/"+uniqueString}>Here</a>To Proceed</p>`
+    };
+    //hash the uniqueString
+    const saltRounds=10;
+    bcrypt
+    .hash(uniqueString,saltRounds)
+    .then((hashedUniqueString)=>{
+        const newVerification =new UserVerification({
+            userID:_id,
+            uniqueString:hashedUniqueString,
+            createAt:Date.now(),
+            expireAt:Date.now()+21600000,
+        });
+        newVerification
+        .save()
+        .then(() =>{
+            transporter
+            .sendMail(mailOption)
+            .then(()=>{
+                //send email and verification status will be saved
+                res.json({
+                    status:"PENDING",
+                    message:"Verification Email Send"
+                })
+            })
+            .catch((error)=>{
+                console.log(error);
+                res.json({
+                        status:"FAILED",
+                        message:"Verification Email Failed",
+                });
+            })
+        })
+        .catch((error)=>{
+            console.log(error);
+            res.json({
+                status:"FAILED",
+                message:"Could Not Able to Save the verification data!!",
+            });
+        })
+    })
+    .catch(()=>{
+        res.json({
+            status:"FAILED",
+            message:"An error when hashing the email details!!"
+        });
+    })
+};
+
 
 //LOGIN
 Router.post("/login", passport.authenticate('local', {session: false}), (req, res) => {
