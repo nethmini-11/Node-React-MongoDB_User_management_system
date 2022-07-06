@@ -1,5 +1,6 @@
 const Router = require('express').Router();
 const User = require('../models/user_model');
+const UserVerification = require('../models/UserVerification');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 require('../config');
