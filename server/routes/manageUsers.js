@@ -1,12 +1,14 @@
 //import express from "express";
 const ManageUsers = require("../models/user_model");
 const router = require("express").Router();
+const bcrypt = require('bcrypt');
 
 //ADD NEW ManageUsers
 router.post('/ManageUsers/add', (req,res)=>{
     let newManageUsers = new ManageUsers(req.body);
 
     newManageUsers.save((err) => {
+
         if(err){
             return res.status(400).json({
                 error:err
@@ -54,6 +56,7 @@ router.get("/ManageUsers/:id", (req,res) => {
 
 //update ManageUsers
 router.put('/ManageUsers/update/:id',(req,res) => {
+    
     ManageUsers.findByIdAndUpdate(
         req.params.id,
         {
@@ -64,6 +67,7 @@ router.put('/ManageUsers/update/:id',(req,res) => {
                 return res.status(400).json({error:err});
             }
             return res.status(200).json({
+                
                 success:"ManageUsers Updated Successfully!🆗"
             });
         }

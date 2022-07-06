@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Container  from "react-bootstrap/Container";
 import axios from 'axios';
 
+
 export default class EditUsers extends Component {
 
     constructor(props){
@@ -44,7 +45,7 @@ export default class EditUsers extends Component {
             status:status,
             password:password,
             password1:password1,
-            role:role,
+            role:role
         }
         console.log(data);
 
@@ -62,7 +63,7 @@ export default class EditUsers extends Component {
                         status:"",
                         password:"",
                         password1:"",
-                        role:"",
+                        role:""
                     }
                 )
             }
@@ -77,16 +78,16 @@ export default class EditUsers extends Component {
                 this.setState({
 
 
-                    uid:res.data.uid,
-                    firstName:res.data.firstName,
-                    lastName:res.data.lastName,
-                    email:res.data.email,
-                    dateOfBirth:res.data.dateOfBirth,
-                    mobile:res.data.mobile,
-                    status:res.data.status,
-                    password:res.data.password,
-                    password1:res.data.password1,
-                    role:res.data.role,
+                    uid:res.data.ManageUsers.uid,
+                    firstName:res.data.ManageUsers.firstName,
+                    lastName:res.data.ManageUsers.lastName,
+                    email:res.data.ManageUsers.email,
+                    dateOfBirth:res.data.ManageUsers.dateOfBirth,
+                    mobile:res.data.ManageUsers.mobile,
+                    status:res.data.ManageUsers.status,
+                    password:res.data.ManageUsers.password,
+                    password1:res.data.ManageUsers.password1,
+                    role:res.data.ManageUsers.role
                 });
                 console.log(this.state.ManageUsers);
             }
@@ -101,39 +102,40 @@ export default class EditUsers extends Component {
             <br></br>
             <h3>Register...</h3>
             <div className="form-group">
-                <input id="uid" type="number" onChange={this.handleInput} className="form-control" value={this.state.uid} placeholder="User ID"/>
+                <input name="uid" type="number" onChange={this.handleInput} className="form-control" value={this.state.uid} placeholder="User ID" disabled />
             </div>
             <div className="form-group">
-                <input id="firstName" type="text" onChange={this.handleInput} className="form-control" value={this.state.firstName} placeholder="First Name"/>
+                <input name="firstName" type="text" onChange={this.handleInput} className="form-control" value={this.state.firstName} placeholder="First Name"/>
             </div>
             <div className="form-group">
-                <input id="lastName" type="text" onChange={this.handleInput} className="form-control" placeholder="Last Name"/>
+                <input name="lastName" type="text" onChange={this.handleInput} className="form-control"value={this.state.lastName} placeholder="Last Name"/>
             </div>
             <div className="form-group">
-                <input id="email" type="text" onChange={this.handleInput} className="form-control" placeholder="Email"/>
+                <input name="email" type="text" onChange={this.handleInput} className="form-control" value={this.state.email} placeholder="Email"/>
             </div>
             <div className="form-group">
-                <input id="dateOfBirth" type="Date" onChange={this.handleInput} className="form-control" placeholder="Date Of Birth"/>
+                <input name="dateOfBirth" type="Date" onChange={this.handleInput} className="form-control" value={this.state.dateOfBirth} placeholder="Date Of Birth"/>
             </div>
             <div className="form-group">
-                <input id="mobile" type="text" onChange={this.handleInput} className="form-control" placeholder="Valid mobile number"/>
+                <input name="mobile" type="text" onChange={this.handleInput} className="form-control" value={this.state.mobile} placeholder="Valid mobile number"/>
             </div>
             <div className="form-group">
-                <input id="status" type="text" onChange={this.handleInput} className="form-control" placeholder="verified / Not verified"/>
+                <input name="status" type="text" onChange={this.handleInput} className="form-control" value={this.state.status} placeholder="verified / Not verified"/>
             </div>
             <div className="form-group">
-                <input id="password" type="password" onChange={this.handleInput} className="form-control" placeholder="Password"/>
+                <input name="password" type="password" onChange={this.handleInput} className="form-control" value={this.state.password} placeholder="Password"/>
             </div>
             <div className="form-group">
-                <input id="password1" type="password" onChange={this.handleInput} className="form-control" placeholder="Re enter your Password"/>
+                <input name="password1" type="password" onChange={this.handleInput} className="form-control" value={this.state.password1} placeholder="Re enter your Password"/>
             </div>
             <div className="form-group">
-                <input id="role" type="text" onChange={this.handleInput} className="form-control" placeholder="Role(admin or user)"/>
+                <input name="role" type="text" onChange={this.handleInput} className="form-control" value={this.state.role} placeholder="Role(admin or user)"/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+           
+            <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Update Marking Schema</button>
         </form>
             <br/><br/><br/><br/>
-            <a href="/allmarking" className="btn btn-danger my-2">
+            <a href="/allnotes" className="btn btn-danger my-2">
           Reload Contact
         </a>
             </Container>

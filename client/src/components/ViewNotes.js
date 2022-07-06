@@ -3,52 +3,50 @@ import axios from "axios";
 import { Container, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default class PanelAlocation extends Component {
+export default class ViewNotes extends Component {
     constructor(props){
         super(props);
 
         this.state={
-            markings:[]
+            notes:[]
         };
     }
     
     componentDidMount() {
-        this.retriveMarkings();
+        this.retriveStudentNote();
     }
     
-    retriveMarkings(){
-        axios.get("http://localhost:5000/MarkingSchema").then(res => {
+    retriveStudentNote(){
+        axios.get("http://localhost:5000/StudentNote").then(res => {
             if(res.data.success){
                 this.setState({
-                    markings: res.data.existingMarkingSchema
+                    notes: res.data.existingStudentNote
                 });
-                console.log(this.state.markings);
+                console.log(this.state.notes);
             }
         });
     }
     
     onDelete = (id) => {
-        axios.delete('http://localhost:5000/MarkingSchema/delete/' +id).then((res) => {
+        axios.delete('http://localhost:5000/StudentNote/delete/' +id).then((res) => {
             alert("Marking Delete Successfully");
-            this.retrivemarkings();
+            this.retriveStudentNote();
         })
     }
 
-    filterData(markings,searchKey){
-        const result = markings.filter((marking) => 
-            marking.markingSchemaNumber.includes(searchKey)||
-            marking.markingSchemaName.toLowerCase().includes(searchKey)||
-            marking.evaluateArea.toLowerCase().includes(searchKey)
+    filterData(notes,searchKey){
+        const result = notes.filter((note) => 
+            note.title.includes(searchKey)
         )
-        this.setState({markings:result})
+        this.setState({notes:result})
     }
 
     handleSearchArea = (e) => {
         const searchKey = e.currentTarget.value;
 
-        axios.get("http://localhost:5000/MarkingSchema").then(res => {
+        axios.get("http://localhost:5000/StudentNote").then(res => {
             if(res.data.success){
-                this.filterData(res.data.existingMarkingSchema,searchKey)
+                this.filterData(res.data.existingStudentNote,searchKey)
             }
         });
     }
@@ -57,7 +55,7 @@ export default class PanelAlocation extends Component {
         return (
         <Container>
             <br></br><br></br>
-            <h4>MANAGE ALL MARKINGS</h4>
+            <h4>MANAGE ALL notes</h4>
             <br></br><hr></hr>
 
             <div className="row">
@@ -77,32 +75,27 @@ export default class PanelAlocation extends Component {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Marking Schema Name</th>
-                        <th>Marking Schema Number</th>
-                        <th>Evaluate Area</th>
-                        <th>Marks</th>
-                        <th>Action</th>
+                        <th>Tile</th>
+                        <th>Description</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.markings.map((markings, index) => (
+                    {this.state.notes.map((notes, index) => (
                         <tr key={index}>
                             <td>{index+1}</td>
                             <td>
-                                <a href={'/marking/view/'+markings._id} style={{ textDecoration: 'none' }}>
-                                {markings.markingSchemaName}
-                                </a>
+                                {notes.title}
                             </td>
-                            <td>{markings.markingSchemaNumber}</td>
-                            <td>{markings.evaluateArea}</td>
-                            <td>{markings.marks}</td>
+                            <td>{notes.description}</td>
+                            
                             <td>
                             
 
-        <Link className="btn btn-info" to={`/edit/${markings._id}`}>
-            Edittt
+        <Link className="btn btn-info" to={`/edit/${notes._id}`}>
+            Edit Note
           </Link>
-                                <a className="btn btn-danger" href="/marking-management" onClick={() => this.onDelete(markings._id)} >
+                                <a className="btn btn-danger" href="/marking-management" onClick={() => this.onDelete(notes._id)} >
                                     <i className="far fa-trash-alt"></i>&nbsp;Delete
                                 </a>
                             </td>
