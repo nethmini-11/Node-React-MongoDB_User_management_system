@@ -5,8 +5,12 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer =require("nodemailer");
 const{v4:uuidv4}=require ("uuid");
+const router = require('./manageUsers');
 require("dotenv").config();
 require('../config');
+
+//path verified page
+const path =require("path");
 
 //To sign JWT token before sending in cookie to Client
 function signToken(userID) {
@@ -89,7 +93,7 @@ const sendVerificationEmail=({_id,email},res)=>{
                 //send email and verification status will be saved
                 res.json({
                     status:"PENDING",
-                    message:"Verification Email Send"
+                    message:"Verification Email Send",
                 })
             })
             .catch((error)=>{
@@ -111,11 +115,49 @@ const sendVerificationEmail=({_id,email},res)=>{
     .catch(()=>{
         res.json({
             status:"FAILED",
-            message:"An error when hashing the email details!!"
+            message:"An error when hashing the email details!!",
         });
     })
 };
 
+//verify email
+router.get("/verify/:userID/uniqueString",(req,res)=>{
+    let{userID,uniqueString}=req.params;
+     UserVerification
+     .find({userID})
+     .then((result)=>{
+        if(result.length >0){
+         //user verification record exists so we proceed
+         const {expireAt}=result[0];
+         //checking for expire unique string
+            if(expireAt < Date.now()){
+                //record expired delete it
+                UserVerification
+                .deleteOne({userID})
+                .then()
+                .catch((error)=>{
+                    console.log(error);
+                    let message ="Error while clearing expired user";
+                    res.redirect(`/user/verified/error=true&message=${message}`);
+                })
+            }
+        }else {
+            //user verification record doesn't exixt
+            let message ="An record doesn't exixt or already verified";
+            res.redirect(`/user/verified/error=true&message=${message}`);
+        }
+     })
+     .catch((error)=>{
+        console.log(error);
+        let message ="An error occured while checking for existing user verification record";
+        res.redirect(`/user/verified/error=true&message=${message}`);
+     })
+});
+
+//verified page route
+router.get(("/verified"),(req,res)=>{
+ res.sendFile(path.join(__dirname,"./../views/verified.html"))
+})
 
 //LOGIN
 Router.post("/login", passport.authenticate('local', {session: false}), (req, res) => {
