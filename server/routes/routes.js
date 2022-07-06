@@ -3,6 +3,9 @@ const User = require('../models/user_model');
 const UserVerification = require('../models/UserVerification');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const nodemailer =require("nodemailer");
+const{v4:uuidv4}=require ("uuid");
+require("dotenv").config();
 require('../config');
 
 //To sign JWT token before sending in cookie to Client
