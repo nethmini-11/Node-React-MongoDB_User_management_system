@@ -16,7 +16,7 @@ function signToken(userID) {
     }, 'secret', {expiresIn:'1h'})
 }
 
-
+//REGISTER
 Router.post("/register", (req, res) => {
     const {uid,firstName,lastName,email,dateOfBirth,mobile,status, password,password1, role} = req.body;
 
@@ -54,7 +54,7 @@ Router.post("/register", (req, res) => {
     })
 })
 
-
+//LOGIN
 Router.post("/login", passport.authenticate('local', {session: false}), (req, res) => {
     const {id, email, role} = req.user;
     const token = signToken(id);
@@ -93,6 +93,22 @@ Router.get("/logout", passport.authenticate('jwt', {session: false}), (req, res)
     return res.status(200).json({ success: true, user: {email:"", role: ""} })
 })
 
+//NODEMAILER TRANSPOTER
+let transporter=nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:process.env.AUTH_EMAIL,
+        pass:process.env.AUTH_PASSWORD,
+    },
+});
+//testing success
 
-
+transporter.verify((error,success) =>{
+    if(error){
+        console.log(error);
+    }else{
+        console.log("Ready for message");
+        console.log(success);
+    }
+});
 module.exports = Router;
