@@ -3,8 +3,8 @@
 ## Front End
 
 ==Step 1 :==
-
->npm intall
+(without node modules)
+>npm install
 
 
 ==Step 2 :==
@@ -14,8 +14,8 @@
 ## Back End End
 
 ==Step 1 :==
-
->npm intall
+(without node modules)
+>npm install
 
 
 ==Step 2 :==
