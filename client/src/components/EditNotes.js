@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Container  from "react-bootstrap/Container";
 import axios from 'axios';
 
-export default class EditMarking extends Component {
+export default class EditNotes extends Component {
 
     constructor(props){
         super(props);

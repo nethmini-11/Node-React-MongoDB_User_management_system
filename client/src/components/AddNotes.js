@@ -59,7 +59,7 @@ export default class Adduser extends Component {
                         <input type="text" className="form-control" name="title" placeholder="Enter note title..."
                             value={this.state.title}
                             onChange={this.handleInputChange} />
-                    </div>
+                    </div><br></br><br></br>
 
                     <div className="col-md-6">
                         <label className="form-label">Write Description</label>
@@ -74,11 +74,13 @@ export default class Adduser extends Component {
 
                     <div className="col-12">
                         <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Add Note</button>
-                    </div>
-            </form>
-            <a href="/allnotes" className="btn btn-danger my-2">
-          Reload Contact
+                        <a href="/allnotes" className="btn btn-danger my-2">
+          View My Notes
         </a>
+                    </div>
+                    
+            </form>
+            
             <br/><br/><br/><br/>
             </Container>
             

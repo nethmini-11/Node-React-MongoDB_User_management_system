@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+/*import React, { Component } from 'react'
 import {AuthContext} from '../context/AuthContext';
 import DataService from '../services/DataService';
 
@@ -28,4 +28,4 @@ class Protect1 extends Component {
         )
     }
 }
-export default Protect1
+export default Protect1*/

@@ -30,14 +30,16 @@ export default function Login(props) {
 
     return (
         <form onSubmit={handleLogin}>
-            <br></br>
+            <br></br><br></br><br></br>
             <h3>Login...</h3>
             <div className="form-group">
                 <input id="email" type="text" onChange={handleInput} className="form-control" placeholder="Email"/>
             </div>
+            <br></br><br></br>
             <div className="form-group">
                 <input id="password" type="password" onChange={handleInput} className="form-control" placeholder="Password"/>
             </div>
+            <br></br><br></br>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
     )

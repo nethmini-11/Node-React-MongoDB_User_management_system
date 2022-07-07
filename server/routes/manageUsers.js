@@ -61,7 +61,6 @@ router.put('/ManageUsers/update/:id',(req,res) => {
         req.params.id,
         {
             $set:req.body
-
             
         },
         

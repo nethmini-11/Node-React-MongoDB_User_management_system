@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+/*import React, { Component } from 'react'
 import DataService from '../services/DataService';
 
 class Protect2 extends Component {
@@ -26,4 +26,4 @@ class Protect2 extends Component {
         )
     }
 }
-export default Protect2
+export default Protect2*/

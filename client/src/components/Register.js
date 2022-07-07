@@ -26,40 +26,40 @@ export default function Register(props) {
     }
 	return (
 		<form onSubmit={handleRegister}>
-            <br></br>
-            <h3>Register...</h3>
+            <br></br><br></br>
+            <h3>Create Users </h3>
             <div className="form-group">
                 <input id="uid" type="number" onChange={handleInput}  className="form-control" placeholder="User ID"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="firstName" type="text" onChange={handleInput} className="form-control" placeholder="First Name"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="lastName" type="text" onChange={handleInput}  className="form-control" placeholder="Last Name"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="email" type="text" onChange={handleInput}  className="form-control" placeholder="Email"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="dateOfBirth" type="Date" onChange={handleInput}  className="form-control" placeholder="Date Of Birth"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="mobile" type="text" onChange={handleInput}  className="form-control" placeholder="Valid mobile number"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="status" type="text" onChange={handleInput}  className="form-control" placeholder="verified / Not verified"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="password" type="password" onChange={handleInput}  className="form-control" placeholder="Password"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="password1" type="password" onChange={handleInput}  className="form-control" placeholder="Re enter your Password"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input id="role" type="text" onChange={handleInput}  className="form-control" placeholder="Role(admin or user)"/>
-            </div>
+            </div><br></br><br></br>
     
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Submit</button><br></br><br></br><br></br>
         </form>
 	)
 }

@@ -97,47 +97,47 @@ export default class EditUsers extends Component {
     render() {
         return (
             <Container>
-                <br></br><br></br><h4>Edit Marking Schema</h4><br></br><hr></hr><br></br>
+                <br></br><br></br><h4>Edit User Details</h4><br></br><hr></hr><br></br>
             <form >
-            <br></br>
-            <h3>Register...</h3>
+            
             <div className="form-group">
                 <input name="uid" type="number" onChange={this.handleInput} className="form-control" value={this.state.uid} placeholder="User ID" disabled />
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="firstName" type="text" onChange={this.handleInput} className="form-control" value={this.state.firstName} placeholder="First Name"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="lastName" type="text" onChange={this.handleInput} className="form-control"value={this.state.lastName} placeholder="Last Name"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="email" type="text" onChange={this.handleInput} className="form-control" value={this.state.email} placeholder="Email"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="dateOfBirth" type="Date" onChange={this.handleInput} className="form-control" value={this.state.dateOfBirth} placeholder="Date Of Birth"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="mobile" type="text" onChange={this.handleInput} className="form-control" value={this.state.mobile} placeholder="Valid mobile number"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="status" type="text" onChange={this.handleInput} className="form-control" value={this.state.status} placeholder="verified / Not verified"/>
-            </div>
+            </div><br></br><br></br>
             <div className="form-group">
-                <input name="password" type="password" onChange={this.handleInput} className="form-control" value={this.state.password} placeholder="Password"/>
-            </div>
+                <input name="password" type="password" onChange={this.handleInput} className="form-control" value={this.state.password} placeholder="Password" disabled/>
+            </div><br></br><br></br>
             <div className="form-group">
-                <input name="password1" type="password" onChange={this.handleInput} className="form-control" value={this.state.password1} placeholder="Re enter your Password"/>
-            </div>
+                <input name="password1" type="password" onChange={this.handleInput} className="form-control" value={this.state.password1} placeholder="Re enter your Password" disabled/>
+            </div><br></br><br></br>
             <div className="form-group">
                 <input name="role" type="text" onChange={this.handleInput} className="form-control" value={this.state.role} placeholder="Role(admin or user)"/>
-            </div>
+            </div><br></br><br></br>
            
-            <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Update Marking Schema</button>
-        </form>
-            <br/><br/><br/><br/>
-            <a href="/allnotes" className="btn btn-danger my-2">
-          Reload Contact
+            <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Update User</button>
+            <a href="/allusers" className="btn btn-danger my-2">
+           View All Users
         </a>
+        </form>
+            
+            
             </Container>
             
         )

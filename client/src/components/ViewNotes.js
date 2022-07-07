@@ -93,7 +93,7 @@ export default class ViewNotes extends Component {
                             
 
         <Link className="btn btn-info" to={`/edit/${notes._id}`}>
-            Edit Note
+            Update
           </Link>
                                 <a className="btn btn-danger" href="/marking-management" onClick={() => this.onDelete(notes._id)} >
                                     <i className="far fa-trash-alt"></i>&nbsp;Delete
@@ -108,7 +108,7 @@ export default class ViewNotes extends Component {
 
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="submit" className="btn btn-outline-primary">
-                    <Link to="/addgroup">Add New Marking Schema</Link>
+                    <Link to="/addnote">Add New Note</Link>
                 </button>
             </div>
 

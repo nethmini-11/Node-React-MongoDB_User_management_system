@@ -57,7 +57,7 @@ export default class ViewUsers extends Component {
         return (
         <Container>
             <br></br><br></br>
-            <h4>MANAGE ALL Users</h4>
+            <h4>MANAGE ALL USERS</h4>
             <br></br><hr></hr>
 
             <div className="row">
@@ -105,12 +105,13 @@ export default class ViewUsers extends Component {
                             <td>{users.password1}</td>
                             <td>{users.role}</td>
                             <td>
-                            
+                                
+                        
 
-        <Link className="btn btn-info" to={`/editusers/${users._id}`}>
-            Edittt
-          </Link>
-                                <a className="btn btn-danger" href="/marking-management" onClick={() => this.onDelete(users._id)} >
+        <Link className="btn btn-success" to={`/editusers/${users._id}`}>
+            Update
+          </Link><br></br><br></br>
+                                <a className="btn btn-danger " href="/marking-management" onClick={() => this.onDelete(users._id)} >
                                     <i className="far fa-trash-alt"></i>&nbsp;Delete
                                 </a>
                             </td>
@@ -122,8 +123,8 @@ export default class ViewUsers extends Component {
             <hr></hr>
 
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="submit" className="btn btn-outline-primary">
-                    <Link to="/addgroup">Add New Marking Schema</Link>
+                <button type="submit" className="btn btn-outline-dark">
+                    <Link to="/register">Add New User</Link>
                 </button>
             </div>
 
