@@ -17,7 +17,7 @@ export default function Register(props) {
             if(!jsonData.error) {
                 setUser(jsonData.user);
                 setIsAuth(jsonData.isAuthenticated);
-                props.history.replace("/")
+                props.history.replace("/allusers")
             }   
             else {
                 console.log("...register error...", jsonData)
@@ -25,8 +25,11 @@ export default function Register(props) {
         })
     }
 	return (
+        
+        
 		<form onSubmit={handleRegister}>
             <br></br><br></br>
+            <div class="container2">
             <h3>Create Users </h3>
             <div className="form-group">
                 <input id="uid" type="number" onChange={handleInput}  className="form-control" placeholder="User ID"/>
@@ -59,7 +62,7 @@ export default function Register(props) {
                 <input id="role" type="text" onChange={handleInput}  className="form-control" placeholder="Role(admin or user)"/>
             </div><br></br><br></br>
     
-            <button type="submit" className="btn btn-primary">Submit</button><br></br><br></br><br></br>
+            <button type="submit" className="btn btn-primary">Submit</button><br></br><br></br><br></br></div>
         </form>
 	)
 }

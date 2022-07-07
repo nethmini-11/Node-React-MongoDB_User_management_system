@@ -70,7 +70,7 @@ export default class EditNotes extends Component {
                     
 
                     <div className="col-md-6">
-                        <label className="form-label">AAdd Title</label>
+                        <label className="form-label">Add Title</label>
                         <input type="text" className="form-control" name="title" placeholder="Enter note title..."
                             value={this.state.title}
                             onChange={this.handleInput} />
@@ -88,12 +88,13 @@ export default class EditNotes extends Component {
                     <br></br><br></br>
 
                     <div className="col-12">
-                        <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Add Note</button>
+                        <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Update Note</button>
+                        <a href="/allnotes" className="btn btn-danger my-2">
+            View My Notes
+        </a>
                     </div>
             </form>
-            <a href="/allnotes" className="btn btn-danger my-2">
-          Reload Contact
-        </a>
+            
             <br/><br/><br/><br/>
             </Container>
             

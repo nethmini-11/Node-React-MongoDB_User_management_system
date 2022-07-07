@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import axios from "axios";
-import { Container, Table } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default class ViewNotes extends Component {
@@ -55,7 +55,7 @@ export default class ViewNotes extends Component {
         return (
         <Container>
             <br></br><br></br>
-            <h4>MANAGE ALL notes</h4>
+            <h4>MANAGE ALL NOTES</h4>
             <br></br><hr></hr>
 
             <div className="row">
@@ -71,38 +71,34 @@ export default class ViewNotes extends Component {
             </div>
 
             <br></br>
-            <Table striped bordered hover variant="light">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tile</th>
-                        <th>Description</th>
+            <div class="row">
+            <div class="col">
+    <img className="img1" src="img1.png" alt=''/>
+        </div>
+        <div class="col">
+            <p>You Can See Your Notes Here</p>
+            <div class="container1">
+                  
+                    {this.state.notes.map((notes)  => (
+                      <tr
                         
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.notes.map((notes, index) => (
-                        <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>
-                                {notes.title}
-                            </td>
-                            <td>{notes.description}</td>
-                            
-                            <td>
-                            
-
-        <Link className="btn btn-info" to={`/edit/${notes._id}`}>
-            Update
-          </Link>
-                                <a className="btn btn-danger" href="/marking-management" onClick={() => this.onDelete(notes._id)} >
+                        
+                      >
+                        
+                        <div className="form-group1" ># </div>
+                        <div className="form-group2">Title: {notes.title}</div>
+                        <div className="form-group2">Description : {notes.description}</div><br></br>
+                        <Link className="btn btn-primary" to={`/edit/${notes._id}`}>
+                         Update
+                         </Link>
+                                <a className="btn btn-danger" href="/delete-note" onClick={() => this.onDelete(notes._id)} >
                                     <i className="far fa-trash-alt"></i>&nbsp;Delete
                                 </a>
-                            </td>
-                        </tr> 
+                        <p>-----------------------------------------------------------</p><br></br><br></br>
+                       
+                      </tr>
                     ))}
-                </tbody>
-            </Table>
+                  </div></div></div>
             <br/>
             <hr></hr>
 

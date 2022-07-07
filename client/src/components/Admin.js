@@ -20,7 +20,7 @@ export default class Admin extends Component {
         return (
             <div className="text-center">
                 <h3>This is admin page...</h3>
-                <p>Admin data is {this.state.data}</p>
+                <p> Here {this.state.data}</p>
             </div>
         )
     }

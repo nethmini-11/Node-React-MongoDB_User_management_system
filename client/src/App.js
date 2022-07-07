@@ -3,8 +3,6 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import PrivateRoute from "./higher_order_component/PrivateRoute";
 import UnPrivateRoute from "./higher_order_component/UnPrivateRoute";
 import Home from "./components/Home";
-import Protect1 from "./components/Protect1";
-import Protect2 from "./components/Protect2";
 import Admin from "./components/Admin";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -22,15 +20,15 @@ function App() {
         <NavBar />  
         
           <Route exact path="/" component={Home}/>
-          <PrivateRoute path="/protect1" role={["user", "admin"]} component={Protect1}/>
-          <PrivateRoute path="/protect2" role={["user", "admin"]} component={Protect2}/>
           <PrivateRoute path="/admin" role={["admin"]} component={Admin}/>
-          <PrivateRoute path="/addnote" role={["admin"]} component={AddNote}/>
-          <PrivateRoute path="/allnotes" role={["admin"]} component={ViewNotes}/>
+          <PrivateRoute path="/addnote" role={["user"]} component={AddNote}/>
+          <PrivateRoute path="/allnotes" role={["user"]} component={ViewNotes}/>
           <UnPrivateRoute path="/login" component={Login} />
           <PrivateRoute path="/register" role={["admin"]} component={Register} />
-          <PrivateRoute path="/edit/:id" role={["admin"]} component={EditNotes}/>
+          <PrivateRoute path="/edit/:id" role={["user"]} component={EditNotes}/>
           <PrivateRoute path="/allusers" role={["admin"]} component={ViewUsers}/>
+          <PrivateRoute path="/delete-note" role={["user"]} component={ViewNotes}/>
+          <PrivateRoute path="/delete-user" role={["admin"]} component={ViewUsers}/>
           <PrivateRoute path="/editusers/:id" role={["admin"]} component={EditUsers}/>
           <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
       </Router>

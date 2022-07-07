@@ -75,7 +75,7 @@ Router.post("/login", passport.authenticate('local', {session: false}), (req, re
 
 //Admin and normal user can access
 Router.get("/protectedData", passport.authenticate('jwt', {session: false}), (req, res) => {
-    return res.status(200).json({data: "Protected data...hehehe"})
+    return res.status(200).json({data: "You can't Access to this"})
 })
 
 
@@ -83,7 +83,7 @@ Router.get("/protectedData", passport.authenticate('jwt', {session: false}), (re
 Router.get("/admin/protectedData", passport.authenticate('jwt', {session: false}), (req, res) => {
     const {role} = req.user;
     if(role === "admin")
-        return res.status(200).json({data: "Admin Protected data...hehehe"})
+        return res.status(200).json({data: "Protected Data"})
 
     return res.status(403).json({data: ""})
 })

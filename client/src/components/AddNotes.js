@@ -49,10 +49,13 @@ export default class Adduser extends Component {
     render() {
         return (
             <Container>
+                <div class="row">
+            <div class="col">
+    <img className="img2" src="img2.png" alt=''/>
+        </div>
+        <div class="col">
                 <br></br><br></br><h4>Add New Note</h4><br></br><hr></hr><br></br>
             <form className="row g-3">
-
-                    
 
                     <div className="col-md-6">
                         <label className="form-label">Add Title</label>
@@ -79,7 +82,7 @@ export default class Adduser extends Component {
         </a>
                     </div>
                     
-            </form>
+            </form></div></div>
             
             <br/><br/><br/><br/>
             </Container>

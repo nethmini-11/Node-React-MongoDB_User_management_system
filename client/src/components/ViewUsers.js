@@ -111,7 +111,7 @@ export default class ViewUsers extends Component {
         <Link className="btn btn-success" to={`/editusers/${users._id}`}>
             Update
           </Link><br></br><br></br>
-                                <a className="btn btn-danger " href="/marking-management" onClick={() => this.onDelete(users._id)} >
+                                <a className="btn btn-danger " href="/delete-user" onClick={() => this.onDelete(users._id)} >
                                     <i className="far fa-trash-alt"></i>&nbsp;Delete
                                 </a>
                             </td>
