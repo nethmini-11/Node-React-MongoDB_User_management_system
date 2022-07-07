@@ -49,24 +49,7 @@ const UserSchema = new mongoose.Schema({
     verified:{type:Boolean,default:false}
 })
 
-/*const User = mongoose.model("User", UserSchema);
-const validate = (data) => {
-	const schema = Joi.object({
-        uid: Joi.number().required().label("User ID"),
-		firstName: Joi.string().required().label("First Name"),
-		lastName: Joi.string().required().label("Last Name"),
-		email: Joi.string().email().required().label("Email"),
-        dateOfBirth: Joi.date().required().label("dob"),
-		mobile: Joi.number().required().label("mobile"),
-		status: Joi.string().required().label("status"),
-		password: Joi.string().required().label("pw"),
-        password1: Joi.string().required().label("pw1"),
-		role: Joi.string().required().label("role"),
-	
-		//password: passwordComplexity().required().label("Password"),
-	});
-	return schema.validate(data);
-};*/
+
 
 //Presave middleware - NOTE: if use arrow function, this becomes empty object, and we can't use isModified()
 UserSchema.pre("save", function(next) {

@@ -62,7 +62,6 @@ mongoose
     ];
 
     const seedDB=async()=>{
-        //await User.deleteManay({});
         await User.create(seedUsers); //use create to hash password 
     };
 

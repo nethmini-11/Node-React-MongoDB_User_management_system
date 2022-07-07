@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "62c681184442600d38eb3107"
+  },
+  "verified": false,
+  "uid": 2,
+  "firstName": "user",
+  "lastName": "User",
+  "email": "User@gmail.com",
+  "dateOfBirth": {
+    "$date": {
+      "$numberLong": "1625250600000"
+    }
+  },
+  "mobile": 986543,
+  "status": "ok",
+  "password": "$2b$10$rf6aOv7Wkf65qN0C.gGEn.o1KJL2sPzrs35V7.2UN2wZJIDr9mfei",
+  "password1": "123456",
+  "role": "user",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62c681184442600d38eb3106"
+  },
+  "verified": false,
+  "uid": 12,
+  "firstName": "admin",
+  "lastName": "Admin",
+  "email": "admin@gmail.com",
+  "dateOfBirth": {
+    "$date": {
+      "$numberLong": "1625250600000"
+    }
+  },
+  "mobile": 986543,
+  "status": "ok",
+  "password": "$2b$10$repqezI5acr3q2c5ATbPjOGq8NwY5wGkcxQndzUgruETV/G/plO5K",
+  "password1": "123456",
+  "role": "admin",
+  "__v": 0
+}]

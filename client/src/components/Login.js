@@ -31,6 +31,11 @@ export default function Login(props) {
     return (
         <form onSubmit={handleLogin}>
             <br></br><br></br><br></br>
+            <div class="row">
+            <div class="col">
+    <img className="img4" src="login.jpg" alt=''/>
+        </div>
+        <div class="col">
             <h3>Login...</h3>
             <div className="form-group">
                 <input id="email" type="text" onChange={handleInput} className="form-control" placeholder="Email"/>
@@ -41,6 +46,6 @@ export default function Login(props) {
             </div>
             <br></br><br></br>
             <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+       </div></div> </form>
     )
 }

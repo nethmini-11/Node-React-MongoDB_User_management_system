@@ -45,6 +45,7 @@ Router.post("/register", (req, res) => {
                     const token = signToken(user.id);
                     //httpOnly prevents XSS (read in my authentication doc for more info)
                     res.cookie("access_token", token, {maxAge:3600*1000, httpOnly: true, sameSite: true});
+                    //emai configuration
                     const token1 =  new Token({
                         userId: user._id,
                         token1: crypto.randomBytes(32).toString("hex"),
@@ -52,7 +53,7 @@ Router.post("/register", (req, res) => {
                     const url = `${process.env.BASE_URL}users/${user.id}/verify/${token1.token1}`;
                     sendEmail(user.email, "Verify Email", url);
                     return res.status(200).json({ isAuthenticated: true, user: {email, role}, error: false });
-
+                    
                     
 		
 

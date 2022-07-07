@@ -13,7 +13,7 @@ router.post('/StudentNote/add', (req,res)=>{
             });
         }
         return res.status(200).json({
-            success:"StudentNote saved successfully🆗"
+            success:"Note saved successfully🆗"
         });
     });
 });
@@ -64,7 +64,7 @@ router.put('/StudentNote/update/:id',(req,res) => {
                 return res.status(400).json({error:err});
             }
             return res.status(200).json({
-                success:"StudentNote Updated Successfully!🆗"
+                success:"Note Updated Successfully!🆗"
             });
         }
     );
@@ -78,7 +78,7 @@ router.delete('/StudentNote/delete/:id', (req,res) => {
             message:"StudentNote Delete Unsuccessful!👎",err
         });
         return res.json({
-            message:"StudentNote Delete Successful!🆗",deletedStudentNote
+            message:"Note Delete Successful!🆗",deletedStudentNote
         });
     });
 });

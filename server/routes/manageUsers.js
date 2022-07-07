@@ -5,19 +5,6 @@ const bcrypt = require('bcrypt');
 const Token = require("../models/token");
 const sendEmail = require("../utils/sendEmail");
 
-//ADD NEW ManageUsers
-router.post('/ManageUsers/mail', async(req,res)=>{
-    const token = await new Token({
-        userId: user._id,
-        token: crypto.randomBytes(32).toString("hex"),
-    }).save();
-    const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
-    await sendEmail(user.email, "Verify Email", url);
-
-    res
-        .status(201)
-        .send({ message: "An Email sent to your account please verify" });
-});
 
 
 //get ManageUserss
@@ -69,7 +56,7 @@ router.put('/ManageUsers/update/:id',(req,res) => {
                 return res.status(400).json({error:err});
             }
             return res.status(200).json({  
-                success:"ManageUsers Updated Successfully!🆗"
+                success:"Users Updated Successfully!🆗"
             });
 
             
@@ -86,7 +73,7 @@ router.delete('/ManageUsers/delete/:id', (req,res) => {
             message:"ManageUsers Delete Unsuccessful!👎",err
         });
         return res.json({
-            message:"ManageUsers Delete Successful!🆗",deletedManageUsers
+            message:"Users Delete Successful!🆗",deletedManageUsers
         });
     });
 });
