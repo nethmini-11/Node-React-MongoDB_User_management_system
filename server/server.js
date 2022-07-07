@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/routes');
+const Router = require('./routes/routes');
+const authRoutes = require('./routes/auth');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -26,9 +27,12 @@ app.use(manageStudentsRoutes);
 
 const manageUsersRoutes = require('./routes/manageUsers');
 app.use(manageUsersRoutes);
-app.use("/routes/routes", userRoutes);
-const register = require('./routes/routes');
-app.use(register);
+app.use("/", Router);
+//app.use("/routes/auth", authRoutes);
+//const register = require('./routes/routes');
+//const { Router } = require('express');
+//const { Router } = require('express');
+//app.use(register);
 
 app.listen("5000", () =>{
     console.log("Server listening at port 5000")

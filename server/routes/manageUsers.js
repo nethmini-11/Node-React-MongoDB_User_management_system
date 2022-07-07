@@ -2,22 +2,21 @@
 const ManageUsers = require("../models/user_model");
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
+const Token = require("../models/token");
+const sendEmail = require("../utils/sendEmail");
 
 //ADD NEW ManageUsers
-router.post('/ManageUsers/add', (req,res)=>{
-    let newManageUsers = new ManageUsers(req.body);
+router.post('/ManageUsers/mail', async(req,res)=>{
+    const token = await new Token({
+        userId: user._id,
+        token: crypto.randomBytes(32).toString("hex"),
+    }).save();
+    const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
+    await sendEmail(user.email, "Verify Email", url);
 
-    newManageUsers.save((err) => {
-
-        if(err){
-            return res.status(400).json({
-                error:err
-            });
-        }
-        return res.status(200).json({
-            success:"ManageUsers saved successfully🆗"
-        });
-    });
+    res
+        .status(201)
+        .send({ message: "An Email sent to your account please verify" });
 });
 
 
@@ -58,19 +57,25 @@ router.get("/ManageUsers/:id", (req,res) => {
 router.put('/ManageUsers/update/:id',(req,res) => {
     
     ManageUsers.findByIdAndUpdate(
+        
         req.params.id,
         {
             $set:req.body
+
+            
         },
+        
         (err,ManageUsers) => {
             if(err){
                 return res.status(400).json({error:err});
             }
-            return res.status(200).json({
-                
+            return res.status(200).json({  
                 success:"ManageUsers Updated Successfully!🆗"
             });
+
+            
         }
+        
     );
 });
 

@@ -13,6 +13,8 @@ import ViewNotes from "./components/ViewNotes";
 import EditMarking from "./components/EditNotes";
 import ViewUsers from "./components/ViewUsers";
 import EditUsers from "./components/EditUsers";
+import EmailVerify from "./components/EmailVerify";
+
 function App() {
   return (
     <div className="container">
@@ -30,7 +32,7 @@ function App() {
           <PrivateRoute path="/edit/:id" role={["admin"]} component={EditMarking}/>
           <PrivateRoute path="/allusers" role={["admin"]} component={ViewUsers}/>
           <PrivateRoute path="/editusers/:id" role={["admin"]} component={EditUsers}/>
-         
+          <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
       </Router>
     </div>
   );

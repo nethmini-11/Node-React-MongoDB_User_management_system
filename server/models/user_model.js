@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema({
     verified:{type:Boolean,default:false}
 })
 
-/*const User = mongoose.model("User", UserSchema);*/
+/*const User = mongoose.model("User", UserSchema);
 const validate = (data) => {
 	const schema = Joi.object({
         uid: Joi.number().required().label("User ID"),
@@ -60,13 +60,13 @@ const validate = (data) => {
 		mobile: Joi.number().required().label("mobile"),
 		status: Joi.string().required().label("status"),
 		password: Joi.string().required().label("pw"),
-        password1: Joi.number().required().label("pw1"),
+        password1: Joi.string().required().label("pw1"),
 		role: Joi.string().required().label("role"),
 	
 		//password: passwordComplexity().required().label("Password"),
 	});
 	return schema.validate(data);
-};
+};*/
 
 //Presave middleware - NOTE: if use arrow function, this becomes empty object, and we can't use isModified()
 UserSchema.pre("save", function(next) {
@@ -95,5 +95,5 @@ UserSchema.methods.comparePassword = function (password, cb) {
     })
 }
 
-module.exports = { validate };
+//module.exports = { User ,validate };
 module.exports =mongoose.model("User", UserSchema);

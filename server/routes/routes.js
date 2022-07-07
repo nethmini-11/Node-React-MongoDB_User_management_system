@@ -1,12 +1,11 @@
 const Router = require('express').Router();
-const { User, validate }= require('../models/user_model');
+const User = require('../models/user_model');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 require('../config');
 const Token = require("../models/token");
-const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
-const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 //To sign JWT token before sending in cookie to Client
 function signToken(userID) {
@@ -17,58 +16,52 @@ function signToken(userID) {
 }
 
 
-Router.post("/", async (req, res) => {
-	try {
-		const { error } = validate(req.body);
-		if (error)
-			return res.status(400).send({ message: error.details[0].message });
+Router.post("/register", (req, res) => {
+    const {uid,firstName,lastName,email,dateOfBirth,mobile,status,password,password1,role} = req.body;
 
-		let user = await User.findOne({ email: req.body.email });
-		if (user)
-			return res
-				.status(409)
-				.send({ message: "User with given email already Exist!" });
+    User.findOne({email}, function(err, user) {
+        if(err)
+            return res.status(500).json({msg: err.message, error: true})
+        if(user)
+            return res.status(400).json({msg: "User already exist", error: true})
+        else {
+            const newUser = new User({
+                uid,
+                firstName,
+                lastName,
+                email,
+                dateOfBirth,
+                mobile,
+                status,
+                password,
+                password1,
+                role
+            })
 
-		const salt = await bcrypt.genSalt(Number(process.env.SALT));
-		const hashPassword = await bcrypt.hash(req.body.password, salt);
+            newUser.save((err, user) =>{
+                if(err)
+                    return res.status(500).json({msg: err.message, error: true})
+                else{
+                    const token = signToken(user.id);
+                    //httpOnly prevents XSS (read in my authentication doc for more info)
+                    res.cookie("access_token", token, {maxAge:3600*1000, httpOnly: true, sameSite: true});
+                    const token1 =  new Token({
+                        userId: user._id,
+                        token1: crypto.randomBytes(32).toString("hex"),
+                    }).save();
+                    const url = `${process.env.BASE_URL}users/${user.id}/verify/${token1.token1}`;
+                    sendEmail(user.email, "Verify Email", url);
+                    return res.status(200).json({ isAuthenticated: true, user: {email, role}, error: false });
 
-		user = await new User({ ...req.body, password: hashPassword }).save();
+                    
+		
 
-		const token = await new Token({
-			userId: user._id,
-			token: crypto.randomBytes(32).toString("hex"),
-		}).save();
-		const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
-		await sendEmail(user.email, "Verify Email", url);
+                }
+            })
+        }
+    })
+})
 
-		res
-			.status(201)
-			.send({ message: "An Email sent to your account please verify" });
-	} catch (error) {
-		console.log(error);
-		res.status(500).send({ message: "Internal Server Error" });
-	}
-});
-
-Router.get("/:id/verify/:token/", async (req, res) => {
-	try {
-		const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });
-
-		const token = await Token.findOne({
-			userId: user._id,
-			token: req.params.token,
-		});
-		if (!token) return res.status(400).send({ message: "Invalid link" });
-
-		await User.updateOne({ _id: user._id, verified: true });
-		await token.remove();
-
-		res.status(200).send({ message: "Email verified successfully" });
-	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
-	}
-});
 
 Router.post("/login", passport.authenticate('local', {session: false}), (req, res) => {
     const {id, email, role} = req.user;
